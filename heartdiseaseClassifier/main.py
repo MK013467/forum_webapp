@@ -38,22 +38,15 @@ Severity: Normal < ST < LVH
 
 3.ST-Slope
 Severity: Up< Flat < Down
-
-
 '''
+
+
 new_df = df.copy
 encoder = LabelEncoder()
 encoder.fit(df["Sex"])
 df["Sex"] = encoder.transform(df["Sex"])
 encoder.fit(df["ExerciseAngina"])
 df["ExerciseAngina"] = encoder.transform(df["ExerciseAngina"])
-# encoder.fit(df["ChestPainType"])
-# df["ChestPainType"] = encoder.transform(df["ChestPainType"])
-# encoder.fit(df["RestingECG"])
-# df["RestingECG"] = encoder.transform(df["RestingECG"])
-# encoder.fit(df["ST_Slope"])
-# df["ST_Slope"] = encoder.transform(df["ST_Slope"])
-# encoder.fit(df["ST_Slope"])
 
 
 ChestPainTypemap = {"ASY":0, "NAP":1 , "ATA":2 , "TA":3}
