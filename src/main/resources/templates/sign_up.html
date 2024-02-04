@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Thanks for Signing up!</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+
+</head>
+<body>
+<div th:include="navbar :: navbarFragment"></div>
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 border p-4 rounded bg-light">
+        <h2>Sign up</h2><br><br>
+
+      <form th:action="@{/user/signup}" th:object="${signUpForm}" method="post">
+<!-- username-->
+        <div>
+          <label class="form-label">Enter your username</label>
+          <input type="text" th:field="*{username}" class="form-control"/>
+          <div th:if="${#fields.hasErrors('username')}" class="alert alert-danger" role="alert">
+              <p th:each="err : ${#fields.errors('username')}" th:text="${err}"></p>
+           </div>
+        </div>
+
+<!--  password -->
+        <div>
+          <div th:if="${#fields.hasErrors('password1') }" class="alert alert-danger" role="alert">
+            <p th:each="err :${#fields.errors('password1') }" th:text="${err}"></p>
+          </div>
+          <label class="form-label">Enter your password</label>
+          <input type="password" th:field="*{password1}" class="form-control"/>
+        </div>
+        <div>
+          <label class="form-label">Check password</label>
+          <input type="password" th:field="*{password2}" class="form-control"/>
+        </div>
+
+        <div>
+          <div th:if="${#fields.hasErrors('email') }" class="alert alert-danger" role="alert">
+            <p th:each="err :${#fields.errors('email') }" th:text="${err}"></p>
+          </div>
+          <label class="form-label">Email</label>
+          <input type="email" th:field="*{email}" class="form-control"/>
+          <button type="submit" class="btn btn-dark">Join</button>
+        </div>
+
+      </form>
+      </div>
+    </div>
+  </div>
+  <!--#include file="./import.html" -->
+</body>
+</html>
+

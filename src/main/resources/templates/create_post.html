@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Wirte Post</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Create New Post</h2>
+    <form th:action="@{/post/write}" th:object="${postWriteDto}" method="post" class="mt-4">
+
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" th:field="*{title}" placeholder="Enter title">
+            <div th:if="${#fields.hasErrors('title')}" class="alert alert-danger" role="alert">
+                <p th:each="err : ${#fields.errors('title')}" th:text="${err}"></p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="contents">Contents</label>
+            <textarea class="form-control" id="contents" th:field="*{contents}" rows="10" placeholder="Write post"></textarea>
+            <div th:if="${#fields.hasErrors('contents')}" class="alert alert-danger" role="alert">
+                 <p th:each="err : ${#fields.errors('contents')}" th:text="${err}"></p>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary float-right">Post</button>
+    </form>
+</div>
+<!--#include file="./import.html" -->
+</body>
+</html>
