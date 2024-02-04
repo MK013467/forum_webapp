@@ -1,11 +1,4 @@
-<head>
-  <style>
-  img {
-    padding-bottom:20px
-  }
-</style>
 
-</head>
 Social Network Service using Springboot
 =======
 ## Environments
@@ -34,13 +27,17 @@ Social Network Service using Springboot
 5. pagination ( 8posts per page )
 6. Validate Signup and Signin Using custom SpringSecurityConfiguration and UserDetailService
 
+
 - HomePage 
-![postlist](img/postlist.png){: height="75px" width="300px" style="float:left; padding-right:10px" }
+
+<img src="img/postlist.png" alt="HomePage" height="500px" width="1000px" style="float:left; padding-right:10px">
 
 - Page for writing posts
-![write_post](img/write_posts.png){: height="75px" width="300px" style="float:left; padding-right:10px" }
+
+<img src="img/write_posts.png" alt="Write Post" height="500px" width="1000px" style="float:left; padding-right:10px">
 
 - You can comment on posts
-![comments](img/comments.png){: height="75px" width="300px" style="float:left; padding-right:10px" }
+
+<img src="img/comments.png" alt="Comments" height="500px" width="1000px" style="float:left; padding-right:10px">
 
 
