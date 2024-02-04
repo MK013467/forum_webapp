@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${post.title}">Post Title</title>
+<!--    jquery cdn-->
+    <script
+            src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .post-container {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+             justify-content: space-between;
+            min-height: 300px;
+        }
+        .post-header {
+            margin-bottom: 15px;
+        }
+        .post-meta {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+        .post-content {
+            font-size: 1.1em;
+            flex-grow: 1;
+        }
+        .action-buttons {
+            text-align: right;
+        }
+        .comment-write, .comment-display{
+            margin-bottom : 20px;
+        }
+    </style>
+
+</head>
+<body>
+
+
+<div class="container mt-5 mb-5">
+    <div class="post-container">
+          <div class="post-header">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="post-title" th:text="${post.title}">Post Title</h1>
+                </div>
+                <div class="col-md-4">
+                    <div class="post-meta">
+                        <span>Written by: <span th:text="${post.writer}"></span></span> |
+                        <span th:text="${#temporals.format(post.displayTime
+                        , 'MM-dd-yyyy HH:mm')}">Date</span>
+                    </div>
+                </div>
+            </div>
+         </div>
+        <p class="post-content" th:text="${post.contents}"></p>
+         <div class="action-buttons">
+            <a th:href="@{/update/{id}(id=${post.id})}" class="btn btn-dark">Edit</a>
+            <a th:href="@{/delete/{id}(id=${post.id})}" class="btn btn-dark">Delete</a>
+         </div>
+    </div>
+</div>
+<!--comments-->
+
+<div class="container comment-section">
+    <!--write comment-->
+    <div id="comment-write" class="card my-4">
+        <div class="card-header">
+            <h3>Write your comment</h3>
+        </div>
+        <div class="card-body">
+            <div class="form-group mx-sm-3 mb-2">
+                <label>Type your comment</label>
+                <textarea class="form-control" rows="3" id="commentContents" placeholder="Type Your Comments"></textarea>
+            </div>
+        <button class="btn btn-dark float-right" onclick="WriteComment()">Comment Write</button>
+        </div>
+    </div>
+    <!--display comment-->
+    <div id="comment-display" class="media mb-4">
+        <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Writer</th>
+                <th>Contents</th>
+                <th>Time</th>
+            </tr>
+            <tr th:each="comment :${commentList}">
+                <td th:text="${comment.id}"></td>
+                <td th:text="${comment.commentWriter}"></td>
+                <td th:text="${comment.commentContents}"></td>
+                <td th:text="${#temporals.format(comment.displayTime, 'MM-dd-yyyy HH:mm')}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<!--#include file="./import.html" -->
+</body>
+<script th:inline="javascript">
+    const WriteComment = () => {
+        const contents = document.getElementById("commentContents").value;
+        const post_id = [[${post.id}]];
+        $.ajax({
+            type:"post",
+            url:"/comment/write",
+            data: {
+                "commentContents": contents,
+                "postId": post_id
+            },
+            success: function(res){
+                console.log("comment Write success");
+                let output = "<table>";
+                output += "<tr><th>댓글번호</th>";
+                output += "<th>작성자</th>";
+                output += "<th>내용</th>";
+                output += "<th>작성시간</th></tr>";
+                for (let i in res) {
+                    output += "<tr>";
+                    output += "<td>" + res[i].id + "</td>";
+                    output += "<td>" + res[i].commentWriter + "</td>";
+                    output += "<td>" + res[i].commentContents + "</td>";
+                    output += "<td>" + res[i].displayTime + "</td>";
+                    output += "</tr>";
+                }
+                output += "</table>";
+                document.getElementById('comment-display').innerHTML = output;
+                document.getElementById("commentContents").value="";
+        },
+            error: function(){
+                console.log("some error!")
+            }
+        })
+    }
+
+</script>
+</html>
